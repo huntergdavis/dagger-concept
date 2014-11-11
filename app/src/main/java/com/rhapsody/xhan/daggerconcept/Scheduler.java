@@ -5,15 +5,15 @@ import javax.inject.Inject;
 /**
  * @todo: add class description
  */
-public class Worker {
+public class Scheduler {
 	public int id;
 
-	@Inject
-	public Worker () {
-		id =-2;
+	public Scheduler (int id) {
+		this.id = id;
 	}
 
-	public Worker (int id) {
-		this.id = id;
+	@Inject
+	public Scheduler () {
+		id= -1;
 	}
 }

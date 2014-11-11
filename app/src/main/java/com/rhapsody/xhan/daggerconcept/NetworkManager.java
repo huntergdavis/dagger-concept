@@ -2,8 +2,10 @@ package com.rhapsody.xhan.daggerconcept;
 
 import com.rhapsody.xhan.daggerconcept.dagger.CachePolicyModule;
 import com.rhapsody.xhan.daggerconcept.dagger.Cached;
+import com.rhapsody.xhan.daggerconcept.dagger.EmptyModule;
 import com.rhapsody.xhan.daggerconcept.dagger.NetworkServiceModule;
 import com.rhapsody.xhan.daggerconcept.dagger.NotCached;
+import com.rhapsody.xhan.daggerconcept.dagger.SchedulerModule;
 import com.rhapsody.xhan.daggerconcept.dagger.WorkerModule;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -16,20 +18,13 @@ import dagger.ObjectGraph;
  */
 public class NetworkManager {
 	@Inject
-	@NotCached
-	OkHttpClient httpClient;
-
-	@Inject
-	@Cached
-	OkHttpClient cachedHttpClient;
-
-	@Inject
 	Worker worker;
 
+	@Inject Scheduler scheduler;
+
 	public NetworkManager() {
-		ObjectGraph.create(new NetworkServiceModule(), new WorkerModule()).inject(this);
-		System.out.println(">>>>>>http client: " + httpClient);
-		System.out.println(">>>>>>cached http client: " + cachedHttpClient);
+		ObjectGraph.create(new EmptyModule()).inject(this);
 		System.out.println(">>> worker: " + worker.id);
+		System.out.println(">>> scheduler: " + scheduler.id);
 	}
 }

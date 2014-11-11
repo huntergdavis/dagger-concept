@@ -17,7 +17,7 @@ import dagger.Provides;
 /**
  * @todo: add class description
  */
-@Module (injects = {NetworkManager.class}, library = true, includes = {CachePolicyModule.class})
+@Module (injects = {}, library = true, includes = {CachePolicyModule.class}, complete = false)
 public class NetworkServiceModule {
 
 	@Provides
