@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "20.0.0"
+
+    defaultConfig {
+        applicationId "com.rhapsody.xhan.daggerconcept"
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.squareup.dagger:dagger:1.2.1@jar'
+    compile 'com.squareup.dagger:dagger-compiler:1.2.1@jar'
+    compile 'com.squareup:javawriter:2.2.1@jar'
+    compile 'javax.inject:javax.inject:1@jar'
+    compile 'com.squareup.retrofit:retrofit:1.6.1'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+}
