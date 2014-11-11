@@ -4,6 +4,7 @@ import com.rhapsody.xhan.daggerconcept.dagger.CachePolicyModule;
 import com.rhapsody.xhan.daggerconcept.dagger.Cached;
 import com.rhapsody.xhan.daggerconcept.dagger.NetworkServiceModule;
 import com.rhapsody.xhan.daggerconcept.dagger.NotCached;
+import com.rhapsody.xhan.daggerconcept.dagger.WorkerModule;
 import com.squareup.okhttp.OkHttpClient;
 
 import javax.inject.Inject;
@@ -22,9 +23,13 @@ public class NetworkManager {
 	@Cached
 	OkHttpClient cachedHttpClient;
 
+	@Inject
+	Worker worker;
+
 	public NetworkManager() {
-		ObjectGraph.create(new NetworkServiceModule()).inject(this);
+		ObjectGraph.create(new NetworkServiceModule(), new WorkerModule()).inject(this);
 		System.out.println(">>>>>>http client: " + httpClient);
 		System.out.println(">>>>>>cached http client: " + cachedHttpClient);
+		System.out.println(">>> worker: " + worker.id);
 	}
 }
