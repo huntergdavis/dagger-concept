@@ -29,14 +29,33 @@ public class NetworkManager {
 	Worker worker;
 
 	public NetworkManager() {
-		ObjectGraph.create(new ProviderModule()).inject(this);
+		ObjectGraph.create(new DebugProviderModule2()).inject(this);
 		System.out.println(">>>>>>http client: " + httpClient);
 		System.out.println(">>>>>>cached http client: " + cachedHttpClient);
-		System.out.println(">>> worker: " + worker.id);
+		System.out.println(">>> worker: " + worker.toString());
 	}
 
-    @Module (includes = {NetworkServiceModule.class, DebuggerWorkerModule.class, CachePolicyModule.class}, injects = {NetworkManager.class})
-    class ProviderModule {
+    @Module (includes = {NetworkServiceModule.class, WorkerModule.class, CachePolicyModule.class}, injects = {NetworkManager.class})
+    static class ProviderModule {
+
+    }
+
+    /**
+     * Not working, compile pass, but get following runtime error:
+     * @com.rhapsody.xhan.daggerconcept.dagger.NotCached()/com.squareup.okhttp.OkHttpClient required by class com.rhapsody.xhan.daggerconcept.NetworkManager
+     * @com.rhapsody.xhan.daggerconcept.dagger.Cached()/com.squareup.okhttp.OkHttpClient required by class com.rhapsody.xhan.daggerconcept.NetworkManager
+     */
+    @Module(includes = {DebuggerWorkerModule.class}, injects = {NetworkManager.class}, addsTo = ProviderModule.class)
+    class DebugProviderModule1 {
+
+    }
+
+    /**
+     * Working.
+     * Note: ProviderModule need to be static class if nested. Otherwise dagger get confused with class$inner_class$$inner_inner_class
+     */
+    @Module(includes = {DebuggerWorkerModule.class, ProviderModule.class}, injects = {NetworkManager.class})
+    public class DebugProviderModule2 {
 
     }
 }

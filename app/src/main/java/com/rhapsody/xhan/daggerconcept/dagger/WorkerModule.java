@@ -13,6 +13,6 @@ import dagger.Provides;
 public class WorkerModule {
 	@Provides
 	Worker provideWorker() {
-		return new Worker(1);
+		return new Worker(1, "worker");
 	}
 }

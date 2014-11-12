@@ -12,6 +12,6 @@ import dagger.Provides;
 public class DebuggerWorkerModule {
     @Provides
     Worker provideWorker() {
-        return new Worker(5);
+        return new Worker(5, "debug worker");
     }
 }

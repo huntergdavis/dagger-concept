@@ -5,8 +5,19 @@ package com.rhapsody.xhan.daggerconcept;
  */
 public class Worker {
 	public int id;
+    public String name;
 
-	public Worker (int id) {
-		this.id = id;
-	}
+    public Worker(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Worker{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
