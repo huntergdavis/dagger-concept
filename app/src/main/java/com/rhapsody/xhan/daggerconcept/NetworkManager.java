@@ -2,6 +2,7 @@ package com.rhapsody.xhan.daggerconcept;
 
 import com.rhapsody.xhan.daggerconcept.dagger.CachePolicyModule;
 import com.rhapsody.xhan.daggerconcept.dagger.Cached;
+import com.rhapsody.xhan.daggerconcept.dagger.DebugCachePolicyModule;
 import com.rhapsody.xhan.daggerconcept.dagger.DebuggerWorkerModule;
 import com.rhapsody.xhan.daggerconcept.dagger.NetworkServiceModule;
 import com.rhapsody.xhan.daggerconcept.dagger.NotCached;
@@ -14,27 +15,38 @@ import dagger.Module;
 import dagger.ObjectGraph;
 
 /**
- * @todo: add class description
+ * Demo class that holds multiple injections from different modules
  */
 public class NetworkManager {
 	@Inject
 	@NotCached
-	OkHttpClient httpClient;
+	OkHttpClient httpClient; // get from NetworkServiceModule
 
 	@Inject
 	@Cached
-	OkHttpClient cachedHttpClient;
+	OkHttpClient cachedHttpClient; // get from NetworkServiceModule
 
 	@Inject
-	Worker worker;
+	Worker worker; // get from WorkerModule
 
 	public NetworkManager() {
-		ObjectGraph.create(new DebugProviderModule2()).inject(this);
+		doInject();
 		System.out.println(">>>>>>http client: " + httpClient);
 		System.out.println(">>>>>>cached http client: " + cachedHttpClient);
+
 		System.out.println(">>> worker: " + worker.toString());
 	}
 
+    /**
+     * Debug class could override this method to provide debugger modules.
+     */
+    protected void doInject() {
+        ObjectGraph.create(new DebugProviderModule2()).inject(this);
+    }
+
+    /**
+     * Actual module that do inject. It collects all modules that target requires
+     */
     @Module (includes = {NetworkServiceModule.class, WorkerModule.class, CachePolicyModule.class}, injects = {NetworkManager.class})
     static class ProviderModule {
 
@@ -51,11 +63,12 @@ public class NetworkManager {
     }
 
     /**
-     * Working.
+     * Debug module.
+     *
      * Note: ProviderModule need to be static class if nested. Otherwise dagger get confused with class$inner_class$$inner_inner_class
      */
-    @Module(includes = {DebuggerWorkerModule.class, ProviderModule.class}, injects = {NetworkManager.class})
-    public class DebugProviderModule2 {
+    @Module(includes = {ProviderModule.class /*main module provider*/, DebuggerWorkerModule.class, DebugCachePolicyModule.class}, injects = {NetworkManager.class})
+    class DebugProviderModule2 {
 
     }
 }

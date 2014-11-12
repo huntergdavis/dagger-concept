@@ -13,6 +13,6 @@ import dagger.Provides;
 public class CachePolicyModule {
 	@Provides
 	CachePolicy provideCachePolicy(MyContext context) {
-		return new CachePolicy(2);
+		return new CachePolicy(2, "Main cache policy");
 	}
 }

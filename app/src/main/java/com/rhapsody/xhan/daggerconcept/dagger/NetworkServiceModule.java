@@ -32,7 +32,7 @@ public class NetworkServiceModule {
 	@Cached
 	OkHttpClient provideClientWithCache(CachePolicy policy) {
 		System.out.println(">>>>>>>>>>>>>>>>>>Injecting cached client");
-		System.out.println(">>>>>>>>>>>>>>>>>>Cache policy:" + policy.policyId);
+		System.out.println(">>>>>>>>>>>>>>>>>>Cache policy:" + policy.toString());
 		OkHttpClient httpClient = new OkHttpClient();
 		return httpClient;
 	}
