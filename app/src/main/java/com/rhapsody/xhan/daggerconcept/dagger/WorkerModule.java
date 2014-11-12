@@ -9,7 +9,7 @@ import dagger.Provides;
 /**
  * @todo: add class description
  */
-@Module(injects = {NetworkManager.class})
+@Module(library = true)
 public class WorkerModule {
 	@Provides
 	Worker provideWorker() {

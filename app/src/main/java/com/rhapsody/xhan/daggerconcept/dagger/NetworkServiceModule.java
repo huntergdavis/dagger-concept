@@ -17,7 +17,8 @@ import dagger.Provides;
 /**
  * @todo: add class description
  */
-@Module (injects = {NetworkManager.class}, library = true, includes = {CachePolicyModule.class})
+@Module (library = true, includes = {CachePolicyModule.class})
+@SuppressWarnings("unused")
 public class NetworkServiceModule {
 
 	@Provides
@@ -33,11 +34,6 @@ public class NetworkServiceModule {
 		System.out.println(">>>>>>>>>>>>>>>>>>Injecting cached client");
 		System.out.println(">>>>>>>>>>>>>>>>>>Cache policy:" + policy.policyId);
 		OkHttpClient httpClient = new OkHttpClient();
-		try {
-			httpClient.setCache(new Cache(new File("/sdcard"), 500));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		return httpClient;
 	}
 }
